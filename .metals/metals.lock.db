@@ -1,0 +1,6 @@
+#FileLock
+#Thu Mar 19 12:18:55 CET 2020
+hostName=LAPTOP-PCP7CSFG
+id=170f284815f0638732ca314c771a526e86752f0a167
+method=file
+server=192.168.1.50\:50063
