@@ -1,3 +1,6 @@
+import scala.math.pow
+import scala.math.sqrt
+
 class Tuple(private val valeurs:Array[Double], private val classe:String)
 {
 
@@ -14,6 +17,16 @@ class Tuple(private val valeurs:Array[Double], private val classe:String)
   def getClasse(): String=
   {
     return this.classe;
+  }
+
+  def distance(autre:Tuple): Double=
+  {
+    var res:Double = 0;
+    for(i <- 0 to this.valeurs.length-1)
+    {
+      res = res + pow(autre.getValeur(i) - this.valeurs(i), 2);
+    }
+    return sqrt(res);
   }
 
   override def toString(): String =
