@@ -6,7 +6,7 @@ class Kmeans(private val K:Int){
 
   private var clusters:Array[Cluster] = Array();
   private val base:BDD = new BDD(); //Contient un tableau de tuples
-  this.creerClusters(); //les clusters ne se créent pas
+  this.creerClusters();
 
   def moyenneBase(nb:Int): Double= //moyenne du type de valeur choisi
   {
@@ -53,7 +53,7 @@ class Kmeans(private val K:Int){
       petalLength = constantes.PLMin + rd.nextDouble() * (constantes.PLMax - constantes.PLMin);
       petalWidth = constantes.PWMin + rd.nextDouble() * (constantes.PWMax - constantes.PWMin);
       val centroide = new Tuple( Array(sepalLength, sepalWidth, petalLength, petalWidth), ""); //Randomiser les valeurs avec le min et max
-      this.clusters :+ new Cluster(Array(), centroide);
+      this.clusters = this.clusters :+ new Cluster(Array(), centroide);
     }
     //Remplit les clusters par rapport aux distances des centroides aux tuples
     this.assignerTupleCluster();
