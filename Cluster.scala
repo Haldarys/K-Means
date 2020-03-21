@@ -18,7 +18,7 @@ class Cluster(private var idDonnees:Array[Int], private var centroide:Tuple)
 
   def addDonnee(nb:Int): Unit=
   {
-    this.idDonnees :+ nb;
+    this.idDonnees = this.idDonnees :+ nb;
   }
 
   def viderDonnees(): Unit=

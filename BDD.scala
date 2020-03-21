@@ -7,12 +7,10 @@ class BDD()
 
   def lireDonnees(fichier:String): Array[Tuple] = //Renvoie les données du fichier sous la forme d'un tableau de Tuples
   {
-    var id:Int = 0 //Position du tuple dans le tableau
     var tab:Array[Tuple] = Array();
     for (line <- Source.fromFile(fichier).getLines) {
 	     var ligne:Array[String] = line.split(","); //Récupère une ligne et la transforme en un tableau de valeurs
        tab = tab :+ new Tuple(ligne.dropRight(1).map(_.toDouble) , ligne(ligne.length-1)); //Crée le tuple et l'ajoute au tableau en séparant les valeurs du nom de la classe
-       id = id + 1; //Incrémente la position pour le prochain tuple
     }
     return tab;
   }

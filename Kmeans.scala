@@ -90,7 +90,7 @@ class Kmeans(private val K:Int){
   {
     for(i <- this.clusters){
       recalculerCentroide(i);
-      //assignerTupleCluster();
+      assignerTupleCluster();
     }
   }
 
@@ -118,7 +118,7 @@ class Kmeans(private val K:Int){
           idMin = i;
         }
       }
-      this.clusters(idMin).addDonnee(idMin);
+      this.clusters(idMin).addDonnee(count);
       count = count + 1;
     }
   }
