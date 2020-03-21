@@ -6,7 +6,7 @@ class Kmeans(private val K:Int){
 
   private var clusters:Array[Cluster] = Array();
   private val base:BDD = new BDD(); //Contient un tableau de tuples
-  this.creerClusters();
+  this.creerClusters(); //les clusters ne se créent pas
 
   def moyenneBase(nb:Int): Double= //moyenne du type de valeur choisi
   {
@@ -38,6 +38,7 @@ class Kmeans(private val K:Int){
 
   def creerClusters(): Unit =
   {
+    //Crée chaque cluster avec des valeurs aléatoires
     val rd:Random = new Random();
 
     var sepalLength:Double = 0;
@@ -54,6 +55,8 @@ class Kmeans(private val K:Int){
       val centroide = new Tuple( Array(sepalLength, sepalWidth, petalLength, petalWidth), ""); //Randomiser les valeurs avec le min et max
       this.clusters :+ new Cluster(Array(), centroide);
     }
+    //Remplit les clusters par rapport aux distances des centroides aux tuples
+    this.assignerTupleCluster();
   }
 
   def moyenneCluster(cl:Cluster): Array[Double]=
@@ -93,7 +96,31 @@ class Kmeans(private val K:Int){
 
   def assignerTupleCluster(): Unit=
   {
-    //Faire fonction qui checke la distance de chaque tuples aux centroide et les ajoute dans le cluster correspondant
+    //Fonction qui checke la distance de chaque tuples aux centroide et les ajoute dans le cluster correspondant
+    val donnees:Array[Tuple] = this.base.getDonnees();
+    var count:Int = 0;
+
+    for(cl <- this.clusters) //Vide tout les clusters
+    {
+      cl.viderDonnees();
+    }
+
+    for(tuple <- donnees) //Parcoure toute les données
+    {
+      var idMin:Int = 0;
+      var valMin:Double = this.clusters(0).getCentroide().distance(tuple);
+      for(i <- 1 to this.clusters.length-1) //Teste pour chaque centroide sa distance à la donnée
+      {
+        var centroide:Tuple = this.clusters(i).getCentroide();
+        if(centroide.distance(tuple) < valMin)
+        {
+          valMin = centroide.distance(tuple);
+          idMin = i;
+        }
+      }
+      this.clusters(idMin).addDonnee(idMin);
+      count = count + 1;
+    }
   }
 
   override def toString(): String=

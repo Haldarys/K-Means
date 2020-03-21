@@ -1,4 +1,4 @@
-class Cluster(private val idDonnees:Array[Int], private var centroide:Tuple)
+class Cluster(private var idDonnees:Array[Int], private var centroide:Tuple)
 {
 
   def getCentroide(): Tuple=
@@ -14,6 +14,16 @@ class Cluster(private val idDonnees:Array[Int], private var centroide:Tuple)
   def getId(): Array[Int]=
   {
     return this.idDonnees;
+  }
+
+  def addDonnee(nb:Int): Unit=
+  {
+    this.idDonnees :+ nb;
+  }
+
+  def viderDonnees(): Unit=
+  {
+    this.idDonnees = Array();
   }
 
   override def toString(): String=
