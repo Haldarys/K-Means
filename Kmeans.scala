@@ -167,6 +167,7 @@ class Kmeans(private val K:Int){
   {
     val donnees:Array[Tuple] = this.base.getDonnees();
     var compteCluster:Int = 0;
+    println("Clusters finaux :\n"); // Pour le test manuel
     for(cl <- this.clusters) //Parcoure chaque cluster
     {
       var tab = cl.getId(); //Recupere le tableau d'id
