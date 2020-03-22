@@ -90,20 +90,17 @@ class Kmeans(private val K:Int){
   {
     for(i <- this.clusters){
       recalculerCentroide(i);
+      viderClusters();
       assignerTupleCluster();
     }
   }
 
   def assignerTupleCluster(): Unit=
   {
-    //Fonction qui checke la distance de chaque tuples aux centroide et les ajoute dans le cluster correspondant
+    //Fonction qui check la distance de chaque tuples aux centroide et les ajoute dans le cluster correspondant
     val donnees:Array[Tuple] = this.base.getDonnees();
     var count:Int = 0;
 
-    for(cl <- this.clusters) //Vide tout les clusters
-    {
-      cl.viderDonnees();
-    }
 
     for(tuple <- donnees) //Parcoure toute les données
     {
@@ -123,6 +120,64 @@ class Kmeans(private val K:Int){
     }
   }
 
+  def viderClusters(): Unit=
+  {
+    for(cl <- this.clusters) //Vide tout les clusters
+    {
+      cl.viderDonnees();
+    }
+  }
+
+  def sauverClusters(): Array[Array[Int]]=
+  {
+    var save:Array[Array[Int]] = new Array(this.clusters.length);
+    for(i <- 0 to this.clusters.length - 1)
+    {
+      save(i) = this.clusters(i).getId();
+    }
+    return save;
+  }
+
+  def saveIdentique(saveAvant:Array[Array[Int]], saveApres:Array[Array[Int]]): Boolean =
+  {
+    //Teste si les tableaux sont identiques
+    for(i <- 0 to saveAvant.length - 1) //Parcoure le tableau exterieur
+    {
+      if(!saveAvant(i).sameElements(saveApres(i))) //Teste pour chaque tableau intérieur s'il contient les mêmes éléments que l'autre
+      {
+        return false; //Renvoie false si l'un est différent
+      }
+    }
+    return true;
+  }
+
+  def algoKmean(): Unit =
+  {
+    var saveAvant:Array[Array[Int]] = Array(Array(0,0)); //Cree 2 tableaux différents pour que la condition initiale soit fausse
+    var saveApres:Array[Array[Int]] = Array(Array(1,1));
+    while(!saveIdentique(saveAvant,saveApres)) //Boucle jusqu'a ce que les elements des clusters restent les mêmes
+    {
+      saveAvant = this.sauverClusters(); //Sauvegarde les données des clusters pour voir s'il faut arreter l'algorithme
+      this.actualiserClusters();
+      saveApres = this.sauverClusters(); //Sauvegarde les données des clusters pour voir s'il faut arreter l'algorithme
+    }
+  }
+
+  def verifClasses(): Unit= //A changer pour renvoyer un pourcentage
+  {
+    val donnees:Array[Tuple] = this.base.getDonnees();
+    var compteCluster:Int = 0;
+    for(cl <- this.clusters) //Parcoure chaque cluster
+    {
+      var tab = cl.getId(); //Recupere le tableau d'id
+      for(id <- tab){
+        println("Cluster " + compteCluster + " : Classe = " + donnees(id).getClasse() );
+      }
+      compteCluster = compteCluster + 1;
+    }
+
+  }
+
   override def toString(): String=
   {
     var s:String = "Kmeans :\n";
@@ -132,7 +187,6 @@ class Kmeans(private val K:Int){
     {
       s = s + i
     }
-    // N'affiche pas les clusters ???
     return s;
   }
 
